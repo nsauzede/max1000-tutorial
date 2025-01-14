@@ -20,6 +20,7 @@ assign rx = BDBUS[0]; // BDBUS[0] is USB UART TX (FPGA RX)
 assign BDBUS[1] = tx; // BDBUS[1] is USB UART RX (FPGA TX)
 
 assign LED = (BLINK < (`BOARD_CK/2)) ? -1 : 0;
+//assign LED = (BLINK < (`BOARD_CK/2)) ? 8'b10101100 : 0;
 assign tx = rx;
 
 always @(posedge CLK12M) begin

@@ -12,3 +12,5 @@ output_files
 *.smsg
 
 *.qws
+*.output
+*.vcd

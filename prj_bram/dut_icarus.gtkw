@@ -1,0 +1,37 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Tue Jan 14 16:43:43 2025
+[*]
+[dumpfile] "/mnt/c/nico/perso/git/max1000-tutorial/prj_bram/dut_icarus.vcd"
+[dumpfile_mtime] "Tue Jan 14 16:39:39 2025"
+[dumpfile_size] 3825
+[savefile] "/mnt/c/nico/perso/git/max1000-tutorial/prj_bram/dut_icarus.gtkw"
+[timestart] 0
+[size] 2553 600
+[pos] 3 3181
+*-14.373503 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] dut_tb.
+[sst_width] 276
+[signals_width] 176
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@420
+dut_tb.dut1.ADDR_WIDTH
+dut_tb.dut1.BOARD_CK
+dut_tb.dut1.INIT_FILE
+dut_tb.dut1.SHIFT
+@22
+dut_tb.dut1.addr[12:0]
+@28
+dut_tb.dut1.clk
+@22
+dut_tb.dut1.count[31:0]
+dut_tb.dut1.dout[31:0]
+dut_tb.dut1.leds[3:0]
+@28
+dut_tb.dut1.reset
+dut_tb.dut1.rx
+dut_tb.dut1.tx
+dut_tb.dut1.we
+[pattern_trace] 1
+[pattern_trace] 0
