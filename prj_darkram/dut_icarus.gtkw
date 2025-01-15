@@ -1,0 +1,42 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Tue Jan 14 22:36:28 2025
+[*]
+[dumpfile] "/mnt/c/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.vcd"
+[dumpfile_mtime] "Tue Jan 14 22:33:45 2025"
+[dumpfile_size] 4550
+[savefile] "/mnt/c/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.gtkw"
+[timestart] 0
+[size] 1918 600
+[pos] -9 -1498
+*-14.844112 8600 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] dut_tb.
+[treeopen] dut_tb.dut1.
+[sst_width] 276
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@420
+dut_tb.dut1.BOARD_CK
+dut_tb.dut1.INIT_FILE
+@28
+dut_tb.dut1.clk
+@22
+dut_tb.dut1.count[31:0]
+dut_tb.dut1.IADDR[31:0]
+dut_tb.dut1.IDATA[31:0]
+@c00023
+dut_tb.dut1.leds[7:0]
+@29
+(0)dut_tb.dut1.leds[7:0]
+(1)dut_tb.dut1.leds[7:0]
+(2)dut_tb.dut1.leds[7:0]
+(3)dut_tb.dut1.leds[7:0]
+(4)dut_tb.dut1.leds[7:0]
+(5)dut_tb.dut1.leds[7:0]
+(6)dut_tb.dut1.leds[7:0]
+(7)dut_tb.dut1.leds[7:0]
+@1401201
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0

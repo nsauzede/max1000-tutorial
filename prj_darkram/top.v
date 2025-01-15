@@ -4,9 +4,7 @@ module top #(
 `else
     parameter simulation = 0,
 `endif
-	 parameter integer SHIFT = 23, // Counter shift to increment the address
-    parameter integer BOARD_CK = 32000000,
-    parameter INIT_FILE = "../darkriscv/src/darksocv_padded.hex"
+    parameter integer BOARD_CK = 32000000
 ) (
         input CLK12M,
         input USER_BTN,
@@ -20,9 +18,9 @@ wire tx;
 wire rx;
 wire reset;
 wire clk;
-wire [3:0] leds;
+wire [7:0] leds;
 
-assign LED = { {2{leds[3]}}, {2{leds[2]}}, {2{leds[1]}}, {2{leds[0]}} };
+assign LED = leds;
 assign reset = ~USER_BTN;
 assign rx = BDBUS[0]; // BDBUS[0] is USB UART TX (FPGA RX)
 assign BDBUS[1] = tx; // BDBUS[1] is USB UART RX (FPGA TX)
@@ -37,7 +35,7 @@ generate
 	);
 	end
 endgenerate
-    dut #(.SHIFT(SHIFT), .BOARD_CK(BOARD_CK), .INIT_FILE(INIT_FILE)) dut1 (
+    dut #(.BOARD_CK(BOARD_CK)) dut1 (
         .rx(rx),
         .tx(tx),
         .leds(leds),
