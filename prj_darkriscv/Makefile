@@ -1,6 +1,17 @@
 DUT:=dut_icarus
-SRC:=../darkriscv/rtl/darkram.v dut.v dut_tb.v
-IVOPT:=-D DUT_VCD=\"$(DUT).vcd\" -D SIMULATION
+SRC:=dut.v dut_tb.v
+SRC+=rtl/darksocv.v
+SRC+=rtl/darkpll.v
+SRC+=rtl/darkbridge.v
+SRC+=rtl/darkriscv.v
+SRC+=rtl/darkram.v
+SRC+=rtl/darkio.v
+SRC+=rtl/darkuart.v
+IVOPT:=-DDUT_VCD=\"$(DUT).vcd\" -I rtl
+IVOPT+=-DSIMULATION=1
+IVOPT+=-DBOARD_ID=0
+IVOPT+=-DBOARD_CK=32000000
+IVOPT+=-D__UARTSPEED__=115200
 
 all: $(DUT).vcd
 
@@ -8,6 +19,7 @@ view: $(DUT).vcd
 #	gtkwave $< &
 	gtkwave $< $(DUT).gtkw &
 
+.PRECIOUS:$(DUT).vcd
 $(DUT).vcd: $(DUT).output
 	vvp $<
 

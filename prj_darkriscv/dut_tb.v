@@ -4,14 +4,14 @@
 `endif
 module dut_tb;
     // Parameters
-    parameter integer BOARD_CK = 0;
+    parameter integer BOARD_CK = 32000000;
 
     localparam clk_period = 10;
 
     reg clk = 0;
     reg rx = 0;
     wire tx;
-    reg reset = 0;
+    reg reset = 1;
     wire [7:0] leds;
 
     dut 
@@ -38,22 +38,10 @@ module dut_tb;
     initial begin
         $dumpfile(`DUT_VCD);
         $dumpvars(0, dut1);
-//        reset = 1'b1;
-        // Hold reset state for 100 ns
-        #100;
-
-        // Insert stimulus
-        reset = 1'b1;
-        #(clk_period * 2);
-        reset = 1'b0;
-
-        // Additional stimulus or waiting
-        #(clk_period * 10);
+        #1e3       reset = 1'b0;
 
         // Wait more and finish
-`ifndef __ICARUS__
-        #1000
-`endif
+        #510695
         $finish;
     end
 endmodule
