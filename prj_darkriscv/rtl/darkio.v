@@ -157,7 +157,8 @@ module darkio
     assign XIRQ = |BOARD_IRQ;
     
 `ifndef __TESTMODE__
-    assign LED = LEDFF[3:0];
+//    assign LED = LEDFF[3:0];
+    assign LED = GPIOFF[3:0];
 `endif
 
     // darkuart
@@ -187,6 +188,7 @@ module darkio
       .DEBUG(UDEBUG)
     );
 
-    assign DEBUG = { XDREQ,XRD,XWR,XDACK };
+//    assign DEBUG = { XDREQ,XRD,XWR,XDACK };
+    assign DEBUG = GPIOFF[7:4];
 
 endmodule

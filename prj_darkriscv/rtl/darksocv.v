@@ -319,6 +319,7 @@ module darksocv
     assign XATAIMUX[3] = 32'hdeadbeef;
     assign XDACKMUX[3] = DTACK3==1;
 	 
-    assign DEBUG = KDEBUG;
+//    assign DEBUG = KDEBUG;
+    assign DEBUG = IODEBUG;
 
 endmodule
