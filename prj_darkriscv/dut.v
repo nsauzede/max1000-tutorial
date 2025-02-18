@@ -19,8 +19,8 @@ module dut #(
 		.UART_RXD(rx),  // UART receive line
 		.UART_TXD(tx),  // UART transmit line
 
-		.LED(leds[3:0]),       // on-board leds
-		.DEBUG(leds[7:4]),      // osciloscope
+		.LED(leds),       // on-board leds
+//		.DEBUG(leds[7:4]),      // osciloscope
 `ifdef SPI
     .spi_miso(spi_miso),
     .spi_mosi(spi_mosi),

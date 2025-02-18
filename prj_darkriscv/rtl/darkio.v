@@ -61,7 +61,7 @@ module darkio
     input         ESIMACK,
 `endif
 
-    output [3:0]  LED,       // on-board leds
+    output [7:0]  LED,       // on-board leds
     output [3:0]  DEBUG      // osciloscope
 );
     // io block
@@ -226,15 +226,15 @@ spi_master spi_master0 (
         .request(spi_request),
         .ready(spi_ready)
 );
-assign LED = leds[3:0];
-assign DEBUG = leds[7:4];
+//assign LED = leds;
+//assign DEBUG = leds[7:4];
 `endif
 
 `ifndef __TESTMODE__
-//    assign LED = LEDFF[3:0];
+    assign LED = LEDFF;
 //    assign LED = GPIOFF[3:0];
 `endif
-//    assign DEBUG = { XDREQ,XRD,XWR,XDACK };
+    assign DEBUG = { XDREQ,XRD,XWR,XDACK };
 //    assign DEBUG = GPIOFF[7:4];
 
 endmodule
