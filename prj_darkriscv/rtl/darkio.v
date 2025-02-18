@@ -49,6 +49,12 @@ module darkio
 
     input         RXD,  // UART receive line
     output        TXD,  // UART transmit line
+`ifdef SPI
+        input spi_miso,
+        output spi_mosi,
+        output spi_csn,
+        output spi_sck,
+`endif
 
 `ifdef SIMULATION
     output        ESIMREQ,
@@ -58,7 +64,6 @@ module darkio
     output [3:0]  LED,       // on-board leds
     output [3:0]  DEBUG      // osciloscope
 );
-
     // io block
 
     reg [15:0] GPIOFF = 0;
@@ -156,10 +161,6 @@ module darkio
     
     assign XIRQ = |BOARD_IRQ;
     
-`ifndef __TESTMODE__
-//    assign LED = LEDFF[3:0];
-    assign LED = GPIOFF[3:0];
-`endif
 
     // darkuart
 
@@ -188,7 +189,52 @@ module darkio
       .DEBUG(UDEBUG)
     );
 
+`ifdef SPI
+wire [7:0] leds;
+wire [31:0] spi_mosi_data;
+wire [31:0] spi_miso_data;
+wire [5:0] spi_nbits;
+wire spi_request;
+wire spi_ready;
+
+sequencer sequencer0 (
+        .clk_in(CLK),
+        .nrst(~RES),
+
+        .spi_mosi_data(spi_mosi_data),
+        .spi_miso_data(spi_miso_data),
+        .spi_nbits(spi_nbits),
+
+        .spi_request(spi_request),
+        .spi_ready(spi_ready),
+
+        .led_out(leds)
+);
+spi_master spi_master0 (
+        .clk_in(CLK),
+        .nrst(~RES),
+
+        .spi_sck(spi_sck),
+        .spi_mosi(spi_mosi),
+        .spi_miso(spi_miso),
+        .spi_csn(spi_csn),
+
+        .mosi_data(spi_mosi_data),
+        .miso_data(spi_miso_data),
+        .nbits(spi_nbits),
+
+        .request(spi_request),
+        .ready(spi_ready)
+);
+assign LED = leds[3:0];
+assign DEBUG = leds[7:4];
+`endif
+
+`ifndef __TESTMODE__
+//    assign LED = LEDFF[3:0];
+//    assign LED = GPIOFF[3:0];
+`endif
 //    assign DEBUG = { XDREQ,XRD,XWR,XDACK };
-    assign DEBUG = GPIOFF[7:4];
+//    assign DEBUG = GPIOFF[7:4];
 
 endmodule

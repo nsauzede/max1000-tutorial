@@ -240,8 +240,12 @@ module darksocv
         .RXD    (UART_RXD),
         .TXD    (UART_TXD),
 
-`ifndef SPI
         .LED    (LED),
+`ifdef SPI
+    .spi_miso(spi_miso),
+    .spi_mosi(spi_mosi),
+    .spi_csn(spi_csn),
+    .spi_sck(spi_sck),
 `endif
 
 `ifdef SIMULATION
@@ -252,49 +256,8 @@ module darksocv
         .DEBUG  (IODEBUG)
     );
 
-`ifndef SPI
 //    assign DEBUG = KDEBUG;
     assign DEBUG = IODEBUG;
-`else
-wire [7:0] leds;
-    assign LED = leds[3:0];
-    assign DEBUG = leds[7:4];
-wire [31:0] spi_mosi_data;
-wire [31:0] spi_miso_data;
-wire [5:0] spi_nbits;
-wire spi_request;
-wire spi_ready;
-
-sequencer sequencer0 (
-        .clk_in(XCLK),
-        .nrst(~XRES),
-
-        .spi_mosi_data(spi_mosi_data),
-        .spi_miso_data(spi_miso_data),
-        .spi_nbits(spi_nbits),
-
-        .spi_request(spi_request),
-        .spi_ready(spi_ready),
-
-        .led_out(leds)
-);
-spi_master spi_master0 (
-        .clk_in(XCLK),
-        .nrst(~XRES),
-
-        .spi_sck(spi_sck),
-        .spi_mosi(spi_mosi),
-        .spi_miso(spi_miso),
-        .spi_csn(spi_csn),
-
-        .mosi_data(spi_mosi_data),
-        .miso_data(spi_miso_data),
-        .nbits(spi_nbits),
-
-        .request(spi_request),
-        .ready(spi_ready)
-);
-`endif
 
     // sdram w/ CS==2
     

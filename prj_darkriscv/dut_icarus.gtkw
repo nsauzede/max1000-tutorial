@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Tue Feb 18 16:42:36 2025
+[*] Tue Feb 18 22:47:51 2025
 [*]
 [dumpfile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.vcd"
-[dumpfile_mtime] "Tue Feb 18 16:40:33 2025"
-[dumpfile_size] 49234995
+[dumpfile_mtime] "Tue Feb 18 22:47:19 2025"
+[dumpfile_size] 49125193
 [savefile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.gtkw"
 [timestart] 0
 [size] 1920 1033
 [pos] -1 -1
-*-26.167297 6315000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-21.167297 5200000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] dut_tb.
 [treeopen] dut_tb.dut1.
 [treeopen] dut_tb.dut1.soc0.
@@ -17,62 +17,20 @@
 [signals_width] 261
 [sst_expanded] 1
 [sst_vpaned_height] 318
-@200
--
--
 @420
 dut_tb.dut1.BOARD_CK
 dut_tb.dut1.INIT_FILE
 @28
 dut_tb.dut1.clk
-@c00022
+@22
 dut_tb.dut1.leds[7:0]
-@28
-(0)dut_tb.dut1.leds[7:0]
-(1)dut_tb.dut1.leds[7:0]
-(2)dut_tb.dut1.leds[7:0]
-(3)dut_tb.dut1.leds[7:0]
-(4)dut_tb.dut1.leds[7:0]
-(5)dut_tb.dut1.leds[7:0]
-(6)dut_tb.dut1.leds[7:0]
-(7)dut_tb.dut1.leds[7:0]
-@1401200
--group_end
 @28
 dut_tb.dut1.reset
 dut_tb.dut1.rx
+dut_tb.dut1.spi_csn
+dut_tb.dut1.spi_miso
+dut_tb.dut1.spi_mosi
+dut_tb.dut1.spi_sck
 dut_tb.dut1.tx
-dut_tb.dut1.soc0.UART_TXD
-dut_tb.dut1.soc0.UART_RXD
-@200
--
-@420
-dut_tb.dut1.soc0.sequencer0.STATE_Init
-dut_tb.dut1.soc0.sequencer0.STATE_Init1
-dut_tb.dut1.soc0.sequencer0.STATE_Init1_Wait
-dut_tb.dut1.soc0.sequencer0.STATE_Init2
-dut_tb.dut1.soc0.sequencer0.STATE_Init2_Wait
-dut_tb.dut1.soc0.sequencer0.STATE_Init_Wait
-dut_tb.dut1.soc0.sequencer0.STATE_LEDout
-dut_tb.dut1.soc0.sequencer0.STATE_Read
-dut_tb.dut1.soc0.sequencer0.STATE_Read_Wait
-dut_tb.dut1.soc0.sequencer0.STATE_Whoami
-dut_tb.dut1.soc0.sequencer0.STATE_Whoami_Wait
-@28
-dut_tb.dut1.soc0.sequencer0.clk_in
-@22
-dut_tb.dut1.soc0.sequencer0.led_out[7:0]
-@28
-dut_tb.dut1.soc0.sequencer0.nrst
-@22
-dut_tb.dut1.soc0.sequencer0.saved_acc[7:0]
-dut_tb.dut1.soc0.sequencer0.spi_miso_data[31:0]
-dut_tb.dut1.soc0.sequencer0.spi_mosi_data[31:0]
-dut_tb.dut1.soc0.sequencer0.spi_nbits[5:0]
-@28
-dut_tb.dut1.soc0.sequencer0.spi_ready
-dut_tb.dut1.soc0.sequencer0.spi_request
-@22
-dut_tb.dut1.soc0.sequencer0.state[3:0]
 [pattern_trace] 1
 [pattern_trace] 0
