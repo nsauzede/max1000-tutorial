@@ -1,69 +1,78 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Sun Feb 16 01:07:55 2025
+[*] Tue Feb 18 16:42:36 2025
 [*]
 [dumpfile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.vcd"
-[dumpfile_mtime] "Sun Feb 16 01:06:52 2025"
-[dumpfile_size] 46757748
+[dumpfile_mtime] "Tue Feb 18 16:40:33 2025"
+[dumpfile_size] 49234995
 [savefile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/prj_darkriscv/dut_icarus.gtkw"
 [timestart] 0
-[size] 1679 472
+[size] 1920 1033
 [pos] -1 -1
-*-26.366331 4045000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-26.167297 6315000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] dut_tb.
 [treeopen] dut_tb.dut1.
 [treeopen] dut_tb.dut1.soc0.
 [sst_width] 273
-[signals_width] 195
+[signals_width] 261
 [sst_expanded] 1
-[sst_vpaned_height] 116
-@23
-dut_tb.dut1.soc0.bram0.DTACK[3:0]
+[sst_vpaned_height] 318
+@200
+-
+-
+@420
+dut_tb.dut1.BOARD_CK
+dut_tb.dut1.INIT_FILE
 @28
-dut_tb.dut1.soc0.bram0.XDACK
-dut_tb.dut1.soc0.bridge0.DAS
-dut_tb.dut1.soc0.bridge0.DDACK
-dut_tb.dut1.soc0.bridge0.XDACK
-dut_tb.dut1.soc0.CLK
-@22
-dut_tb.dut1.soc0.DEBUG[3:0]
-dut_tb.dut1.soc0.DTACK2[3:0]
-dut_tb.dut1.soc0.DTACK3[3:0]
+dut_tb.dut1.clk
+@c00022
+dut_tb.dut1.leds[7:0]
 @28
-dut_tb.dut1.soc0.ESIMACK
-dut_tb.dut1.soc0.ESIMREQ
-dut_tb.dut1.soc0.HLT
-@22
-dut_tb.dut1.soc0.IADDR[31:0]
+(0)dut_tb.dut1.leds[7:0]
+(1)dut_tb.dut1.leds[7:0]
+(2)dut_tb.dut1.leds[7:0]
+(3)dut_tb.dut1.leds[7:0]
+(4)dut_tb.dut1.leds[7:0]
+(5)dut_tb.dut1.leds[7:0]
+(6)dut_tb.dut1.leds[7:0]
+(7)dut_tb.dut1.leds[7:0]
+@1401200
+-group_end
 @28
-dut_tb.dut1.soc0.IDACK
-@22
-dut_tb.dut1.soc0.IDATA[31:0]
-@28
-dut_tb.dut1.soc0.IDREQ
-@22
-dut_tb.dut1.soc0.IODEBUG[3:0]
-dut_tb.dut1.soc0.KDEBUG[3:0]
-dut_tb.dut1.soc0.LED[3:0]
-@28
-dut_tb.dut1.soc0.PRINT2
-dut_tb.dut1.soc0.PRINT3
-dut_tb.dut1.soc0.RES
-dut_tb.dut1.soc0.UART_RXD
+dut_tb.dut1.reset
+dut_tb.dut1.rx
+dut_tb.dut1.tx
 dut_tb.dut1.soc0.UART_TXD
-@22
-dut_tb.dut1.soc0.XADDR[31:0]
-dut_tb.dut1.soc0.XATAO[31:0]
-dut_tb.dut1.soc0.XBE[3:0]
+dut_tb.dut1.soc0.UART_RXD
+@200
+-
+@420
+dut_tb.dut1.soc0.sequencer0.STATE_Init
+dut_tb.dut1.soc0.sequencer0.STATE_Init1
+dut_tb.dut1.soc0.sequencer0.STATE_Init1_Wait
+dut_tb.dut1.soc0.sequencer0.STATE_Init2
+dut_tb.dut1.soc0.sequencer0.STATE_Init2_Wait
+dut_tb.dut1.soc0.sequencer0.STATE_Init_Wait
+dut_tb.dut1.soc0.sequencer0.STATE_LEDout
+dut_tb.dut1.soc0.sequencer0.STATE_Read
+dut_tb.dut1.soc0.sequencer0.STATE_Read_Wait
+dut_tb.dut1.soc0.sequencer0.STATE_Whoami
+dut_tb.dut1.soc0.sequencer0.STATE_Whoami_Wait
 @28
-dut_tb.dut1.soc0.XCLK
-dut_tb.dut1.soc0.XDREQ
+dut_tb.dut1.soc0.sequencer0.clk_in
 @22
-dut_tb.dut1.soc0.XDREQMUX[3:0]
+dut_tb.dut1.soc0.sequencer0.led_out[7:0]
 @28
-dut_tb.dut1.soc0.XIRQ
-dut_tb.dut1.soc0.XRD
-dut_tb.dut1.soc0.XRES
-dut_tb.dut1.soc0.XWR
+dut_tb.dut1.soc0.sequencer0.nrst
+@22
+dut_tb.dut1.soc0.sequencer0.saved_acc[7:0]
+dut_tb.dut1.soc0.sequencer0.spi_miso_data[31:0]
+dut_tb.dut1.soc0.sequencer0.spi_mosi_data[31:0]
+dut_tb.dut1.soc0.sequencer0.spi_nbits[5:0]
+@28
+dut_tb.dut1.soc0.sequencer0.spi_ready
+dut_tb.dut1.soc0.sequencer0.spi_request
+@22
+dut_tb.dut1.soc0.sequencer0.state[3:0]
 [pattern_trace] 1
 [pattern_trace] 0

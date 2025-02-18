@@ -288,5 +288,8 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 set_global_assignment -name VERILOG_MACRO "BOARD_ID=0"
 set_global_assignment -name VERILOG_MACRO "__UARTSPEED__=115200"
 set_global_assignment -name VERILOG_MACRO "BOARD_CK=32000000"
+set_global_assignment -name VERILOG_MACRO "SPI=1"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name CDF_FILE output_files/max1000.cdf
+
+set_global_assignment -name CDF_FILE max1000.cdf

@@ -15,7 +15,11 @@ module spi_master (
 	output reg ready    // Active HIGH when transfer has finished
 );
 
-parameter div_coef = 32'd10000;
+`ifdef SIMULATION
+parameter div_coef = 32'd1;
+`else
+parameter div_coef = 32'd100000;
+`endif
 
 // Frequency divider 
 reg [31:0] divider;

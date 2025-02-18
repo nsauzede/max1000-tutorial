@@ -17,7 +17,6 @@ module top_tb;
     reg [3:0] buttons = 0;
     localparam clk_period = 10;
     top #(
-        .simulation(1),
 		  .SHIFT(SHIFT) // Counter shift to increment the address
     ) top1 (
         .CLK12M(CLK12M),

@@ -55,6 +55,9 @@ always @(posedge clk_in or negedge nrst)
 				if (spi_ready) begin
 					state <= STATE_Init;
 					led_out <= spi_miso_data[7:0];
+`ifdef SIMULATION
+					$display("WHOAMI returned %x", spi_miso_data[7:0]);//$finish;
+`endif
 				end 
 				spi_request <= 1'b0;
 			end
