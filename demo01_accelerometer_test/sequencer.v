@@ -1,4 +1,8 @@
 module sequencer (
+`ifdef SIMULATION
+	input wire x_l_flag,
+	output reg [7:0] x_l_response,
+`endif
 	input wire clk_in,
 	input wire nrst,
 	
@@ -28,9 +32,12 @@ localparam
 reg [3:0] state;
 
 reg signed [7:0] saved_acc;
+`ifdef SIMULATION
+reg [7:0] expected_data = 8'h9a;
+`endif
 
 always @(posedge clk_in or negedge nrst)
-	if (nrst == 1'b0) begin		
+	if (nrst == 1'b0) begin	
 		state <= 4'b0;
 		
 		spi_mosi_data <= 32'b0;
@@ -39,6 +46,9 @@ always @(posedge clk_in or negedge nrst)
 		led_out <= 8'b0;
 		
 		saved_acc <= 8'b0;
+`ifdef SIMULATION
+		x_l_response <= 8'b0;
+`endif
 	end else begin
 		case (state)
 		
@@ -53,16 +63,23 @@ always @(posedge clk_in or negedge nrst)
 			
 			STATE_Whoami_Wait: begin
 				if (spi_ready) begin
+`ifdef SIMULATION
+					if (spi_miso_data[7:0] != 8'h33) begin
+					$display("Bad Whoami response: %02x", spi_miso_data[7:0]);
+					$fatal(1);
+					end
+`endif
 					state <= STATE_Init;
-					led_out <= spi_miso_data[7:0];
+					//led_out <= spi_miso_data[7:0];
 				end 
 				spi_request <= 1'b0;
 			end
 			
 			// 2. Write ODR in CTRL_REG1 (Addr 0x20)
 			STATE_Init: begin
+				if (~spi_ready) begin
 				state <= STATE_Init_Wait;
-				
+				end
 				spi_request <= 1'b1;
 				spi_nbits <= 6'd15;
 				spi_mosi_data <= 31'b00100000_01110111;
@@ -77,8 +94,9 @@ always @(posedge clk_in or negedge nrst)
 			
 			// 3. Enable temperature sensor (Addr 0x1F)
 			STATE_Init1: begin
+				if (~spi_ready) begin
 				state <= STATE_Init1_Wait;
-				
+				end
 				spi_request <= 1'b1;
 				spi_nbits <= 6'd15;
 				spi_mosi_data <= 31'b00011111_11000000;
@@ -93,8 +111,9 @@ always @(posedge clk_in or negedge nrst)
 			
 			// 4. Enable BDU, High resolution (Addr 0x23)
 			STATE_Init2: begin
+				if (~spi_ready) begin
 				state <= STATE_Init2_Wait;
-				
+				end
 				spi_request <= 1'b1;
 				spi_nbits <= 6'd15;
 				spi_mosi_data <= 31'b00100011_10001000;
@@ -103,22 +122,38 @@ always @(posedge clk_in or negedge nrst)
 			STATE_Init2_Wait: begin
 				if (spi_ready) begin
 					state <= STATE_Read;
+					$display("STATE_Init2_Wait => STATE_Read");
 				end 
 				spi_request <= 1'b0;
 			end
 			
-			// 5. Read OUT_X_H (Addr 0x29)
+			// 5. Read OUT_X_L (Addr 0x28)
 			STATE_Read: begin
+`ifdef SIMULATION
+				x_l_response <= expected_data;
+`endif
+				if (~spi_ready) begin
 				state <= STATE_Read_Wait;
-				
+				$display("STATE_Read => STATE_Read_Wait");
+				end
 				spi_request <= 1'b1;
 				spi_nbits <= 6'd23;
-				spi_mosi_data <= 31'b11101000_00000000_00000000;
+				  spi_mosi_data <= 31'b11101000_00000000_00000000;//28: OUT_X_L
+				//spi_mosi_data <= 31'b11101010_00000000_00000000;//2a: OUT_Y_L
+				//spi_mosi_data <= 31'b11101100_00000000_00000000;//2c: OUT_Z_L
 			end
 			
 			STATE_Read_Wait: begin
 				if (spi_ready) begin
+`ifdef SIMULATION
+					if (spi_miso_data[7:0] != expected_data) begin
+					$display("Bad Read response: %02x (wanted 0xda)", spi_miso_data[7:0]);
+					$fatal(1);
+					end
+				expected_data <= expected_data + 32;
+`endif
 					state <= STATE_LEDout;
+					$display("STATE_Read_Wait => STATE_LEDout - spi_miso_data=%02x", spi_miso_data);
 					saved_acc <= spi_miso_data[7:0];
 				end 
 				spi_request <= 1'b0;
@@ -126,9 +161,12 @@ always @(posedge clk_in or negedge nrst)
 			
 			// 6. Set LED output according to accelerometer value
 			STATE_LEDout: begin
+				//if (~spi_ready) begin
 				state <= STATE_Read;
-				
+				$display("STATE_LEDout => STATE_Read - saved_acc=%02x", saved_acc);
+				//end
 				led_out <= 1 << ((saved_acc + 8'Sb1000_0000) >> 5);
+				//led_out <= saved_acc;
 			end
 		endcase
 	end

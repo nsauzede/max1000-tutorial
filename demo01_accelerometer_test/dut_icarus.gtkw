@@ -1,0 +1,81 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Mon Mar 10 19:36:58 2025
+[*]
+[dumpfile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/demo01_accelerometer_test/dut_icarus.vcd"
+[dumpfile_mtime] "Mon Mar 10 19:36:53 2025"
+[dumpfile_size] 385941
+[savefile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/demo01_accelerometer_test/dut_icarus.gtkw"
+[timestart] 0
+[size] 1920 1033
+[pos] -1 -1
+*-22.867327 5625000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] dut_tb.
+[treeopen] dut_tb.dut1.
+[sst_width] 273
+[signals_width] 258
+[sst_expanded] 1
+[sst_vpaned_height] 305
+@420
+dut_tb.dut1.SPI_DIV_COEF
+@28
+dut_tb.dut1.clk
+@22
+dut_tb.dut1.leds[7:0]
+@28
+dut_tb.dut1.reset
+dut_tb.dut1.rx
+dut_tb.dut1.spi_csn
+dut_tb.dut1.spi_miso
+@22
+dut_tb.dut1.spi_miso_data[31:0]
+@28
+dut_tb.dut1.spi_mosi
+@22
+dut_tb.dut1.spi_mosi_data[31:0]
+dut_tb.dut1.spi_nbits[5:0]
+@28
+dut_tb.dut1.spi_ready
+dut_tb.dut1.spi_request
+dut_tb.dut1.spi_sck
+dut_tb.dut1.tx
+@200
+-
+@420
+dut_tb.lis3dh_stub0.IDLE
+dut_tb.lis3dh_stub0.PROCESSING
+dut_tb.lis3dh_stub0.RECEIVING
+dut_tb.lis3dh_stub0.RESPONDING
+@22
+dut_tb.lis3dh_stub0.bit_count[3:0]
+@28
+dut_tb.lis3dh_stub0.clk
+dut_tb.lis3dh_stub0.cs
+dut_tb.lis3dh_stub0.cs_d
+dut_tb.lis3dh_stub0.cs_prev
+dut_tb.lis3dh_stub0.miso
+dut_tb.lis3dh_stub0.mosi
+dut_tb.lis3dh_stub0.mosi_d
+@29
+dut_tb.lis3dh_stub0.out_x_l_flag
+@22
+dut_tb.lis3dh_stub0.out_x_l_response[7:0]
+dut_tb.lis3dh_stub0.response[7:0]
+@28
+dut_tb.lis3dh_stub0.sck
+dut_tb.lis3dh_stub0.sck_d
+dut_tb.lis3dh_stub0.sck_prev
+@22
+dut_tb.lis3dh_stub0.shift_reg[7:0]
+@28
+dut_tb.lis3dh_stub0.state[1:0]
+@200
+-
+@22
+dut_tb.dut1.sequencer1.saved_acc[7:0]
+dut_tb.dut1.sequencer1.spi_miso_data[31:0]
+dut_tb.dut1.sequencer1.state[3:0]
+@200
+-
+[pattern_trace] 1
+[pattern_trace] 0

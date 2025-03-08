@@ -1,4 +1,4 @@
-module spi_master (
+module spi_master #( parameter integer DIV_COEF = 0 ) (
 	input wire clk_in, // Logic clock 
 	input wire nrst,   // SPI is active when nreset is HIGH
 	
@@ -15,7 +15,7 @@ module spi_master (
 	output reg ready    // Active HIGH when transfer has finished
 );
 
-parameter div_coef = 32'd10000;
+localparam div_coef = (DIV_COEF == 0) ? 32'd10000 : DIV_COEF;
 
 // Frequency divider 
 reg [31:0] divider;
