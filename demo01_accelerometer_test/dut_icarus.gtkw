@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
-[*] Mon Mar 10 19:36:58 2025
+[*] Tue Mar 11 11:51:17 2025
 [*]
-[dumpfile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/demo01_accelerometer_test/dut_icarus.vcd"
-[dumpfile_mtime] "Mon Mar 10 19:36:53 2025"
-[dumpfile_size] 385941
-[savefile] "/mnt/huge/lenovo/nico/perso/git/max1000-tutorial/demo01_accelerometer_test/dut_icarus.gtkw"
+[dumpfile] "dut_icarus.vcd"
+[dumpfile_mtime] "Tue Mar 11 11:50:36 2025"
+[dumpfile_size] 386326
+[savefile] "dut_icarus.gtkw"
 [timestart] 0
 [size] 1920 1033
 [pos] -1 -1
-*-22.867327 5625000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-21.867327 2772000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] dut_tb.
 [treeopen] dut_tb.dut1.
 [sst_width] 273
@@ -20,7 +20,7 @@
 dut_tb.dut1.SPI_DIV_COEF
 @28
 dut_tb.dut1.clk
-@22
+@23
 dut_tb.dut1.leds[7:0]
 @28
 dut_tb.dut1.reset
@@ -56,7 +56,6 @@ dut_tb.lis3dh_stub0.cs_prev
 dut_tb.lis3dh_stub0.miso
 dut_tb.lis3dh_stub0.mosi
 dut_tb.lis3dh_stub0.mosi_d
-@29
 dut_tb.lis3dh_stub0.out_x_l_flag
 @22
 dut_tb.lis3dh_stub0.out_x_l_response[7:0]
