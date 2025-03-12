@@ -16,7 +16,7 @@ module dut_tb;
     wire [7:0] leds;
 `ifdef SIMULATION
     wire x_l_flag;
-    wire [7:0] x_l_response;
+    wire [15:0] x_l_response;
 `endif
 
     dut #(.SPI_DIV_COEF(SPI_DIV_COEF)) dut1 (

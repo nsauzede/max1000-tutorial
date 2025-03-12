@@ -1,17 +1,17 @@
-module sequencer (
+module darkspisequencer (
 `ifdef SIMULATION
 	input wire x_l_flag,
-	output reg [7:0] x_l_response,
+	output reg [15:0] x_l_response,
 `endif
 	input wire clk_in,
 	input wire nrst,
 	
-	output reg [31:0] spi_mosi_data,
-	input wire [31:0] spi_miso_data,
-	output reg [5:0] spi_nbits,
-	
-	output reg spi_request,
-	input  wire spi_ready,
+	output reg        RD,             // bus read
+	output reg        WR,             // bus write
+	output reg [ 3:0] BE,             // byte enable
+	output reg [31:0] DATAI,          // data input
+	input      [31:0] DATAO,          // data output
+	input             IRQ,            // interrupt req
 	
 	output reg [7:0] led_out
 );
@@ -47,7 +47,7 @@ localparam expected_HIZ = 8'hff;
 `endif
 reg signed [7:0] saved_acc;
 `ifdef SIMULATION
-reg [7:0] expected_data = 8'h9a;
+reg [15:0] expected_data = 16'h9a00;
 `endif
 
 always @(posedge clk_in or negedge nrst)
@@ -55,9 +55,10 @@ always @(posedge clk_in or negedge nrst)
 		led_out <= DEBUG_0;
 		state <= STATE_Whoami;
 		
-		spi_mosi_data <= 32'b0;
-		spi_nbits <= 6'b0;
-		spi_request <= 1'b0;
+		DATAI <= 32'b0;
+		BE <= 4'b0;
+		RD <= 1'b0;
+		WR <= 1'b0;
 		
 		saved_acc <= 8'b0;
 `ifdef SIMULATION
@@ -69,98 +70,121 @@ always @(posedge clk_in or negedge nrst)
 			// 1. Read WHO_AM_I register (Addr 0x0F)
 			STATE_Whoami: begin
 				led_out <= DEBUG_1;
-				if (~spi_ready) begin
-				state <= STATE_Whoami_Wait;
+				if (IRQ) begin
+					state <= STATE_Whoami_Wait;
 				end
-				spi_request <= 1'b1;
-				spi_nbits <= 6'd15;
-				spi_mosi_data <= 31'b10001111_00000000;
+				WR <= 1'b1;
+				BE <= 4'b0011;
+				DATAI <= 31'b10001111_00000000;
 			end
 			
 			STATE_Whoami_Wait: begin
-				if (spi_ready) begin
-					if (spi_miso_data[7:0] != expected_who_am_i) begin
+				if (~IRQ) begin
+					if (~RD) begin
+					RD <= 1;
+					BE <= 4'b0001;
+					end else begin
+					RD <= 0;
+					if (DATAO[7:0] != expected_who_am_i) begin
 						state <= STATE_Halt;
 `ifdef SIMULATION
-						$display("Bad Whoami response: %02x (expected %02x)", spi_miso_data[7:0], expected_who_am_i);
+						$display("Bad Whoami response: %02x (expected %02x)", DATAO[7:0], expected_who_am_i);
 						$fatal(1);
 `endif
 					end else begin
 						state <= STATE_Init;
 					end
-				end 
-				spi_request <= 1'b0;
+					end
+				end
+				WR <= 1'b0;
 			end
 			
 			// 2. Write ODR in CTRL_REG1 (Addr 0x20)
 			STATE_Init: begin
 				led_out <= DEBUG_2;
-				if (~spi_ready) begin
+				if (IRQ) begin
 				state <= STATE_Init_Wait;
 				end
-				spi_request <= 1'b1;
-				spi_nbits <= 6'd15;
-				spi_mosi_data <= 31'b00100000_01110111;
+				WR <= 1'b1;
+				BE <= 4'b0011;
+				DATAI <= 31'b00100000_01110111;
 			end
 			
 			STATE_Init_Wait: begin
-				if (spi_ready) begin
-					if (spi_miso_data[7:0] != expected_HIZ) begin
+				if (~IRQ) begin
+					if (~RD) begin
+					RD <= 1;
+					BE <= 4'b0001;
+					end else begin
+					RD <= 0;
+					if (DATAO[7:0] != expected_HIZ) begin
 						state <= STATE_Halt;
 `ifdef SIMULATION
-						$display("Bad Ctrlreg1 response: %02x (expected %02x)", spi_miso_data[7:0], expected_HIZ);
+						$display("Bad Ctrlreg1 response: %02x (expected %02x)", DATAO[7:0], expected_HIZ);
 						$fatal(1);
 `endif
 					end else begin
 						state <= STATE_Init1;
 					end
+					end
 				end 
-				spi_request <= 1'b0;
+				WR <= 1'b0;
 			end
 			
 			// 3. Enable temperature sensor (Addr 0x1F)
 			STATE_Init1: begin
 				led_out <= DEBUG_3;
-				if (~spi_ready) begin
+				if (IRQ) begin
 				state <= STATE_Init1_Wait;
 				end
-				spi_request <= 1'b1;
-				spi_nbits <= 6'd15;
-				spi_mosi_data <= 31'b00011111_11000000;
+				WR <= 1'b1;
+				BE <= 4'b0011;
+				DATAI <= 31'b00011111_11000000;
 			end
 			
 			STATE_Init1_Wait: begin
-				if (spi_ready) begin
-					if (spi_miso_data[7:0] != expected_HIZ) begin
+				if (~IRQ) begin
+					if (~RD) begin
+					RD <= 1;
+					BE <= 4'b0001;
+					end else begin
+					RD <= 0;
+					if (DATAO[7:0] != expected_HIZ) begin
 						state <= STATE_Halt;
 `ifdef SIMULATION
-						$display("Bad Tempcfgreg response: %02x (expected %02x)", spi_miso_data[7:0], expected_HIZ);
+						$display("Bad Tempcfgreg response: %02x (expected %02x)", DATAO[7:0], expected_HIZ);
 						$fatal(1);
 `endif
 					end else begin
 						state <= STATE_Init2;
 					end
+					end
 				end 
-				spi_request <= 1'b0;
+				WR <= 1'b0;
 			end
 			
 			// 4. Enable BDU, High resolution (Addr 0x23)
 			STATE_Init2: begin
 				led_out <= DEBUG_4;
-				if (~spi_ready) begin
+				if (IRQ) begin
 				state <= STATE_Init2_Wait;
 				end
-				spi_request <= 1'b1;
-				spi_nbits <= 6'd15;
-				spi_mosi_data <= 31'b00100011_10001000;
+				WR <= 1'b1;
+				BE <= 4'b0011;
+				DATAI <= 31'b00100011_10001000;
 			end
 			
 			STATE_Init2_Wait: begin
-				if (spi_ready) begin
-					if (spi_miso_data[7:0] != expected_HIZ) begin
+				if (~IRQ) begin
+					if (~RD) begin
+					RD <= 1;
+					BE <= 4'b0001;
+					end else begin
+					RD <= 0;
+					if (DATAO[7:0] != expected_HIZ) begin
 						state <= STATE_Halt;
 `ifdef SIMULATION
-						$display("Bad Ctrlreg4 response: %02x (expected %02x)", spi_miso_data[7:0], expected_HIZ);
+						$display("Bad Ctrlreg4 response: %02x (expected %02x)", DATAO[7:0], expected_HIZ);
 						$fatal(1);
 `endif
 					end else begin
@@ -169,8 +193,9 @@ always @(posedge clk_in or negedge nrst)
 						//$display("STATE_Init2_Wait => STATE_Read");
 `endif
 					end
+					end
 				end 
-				spi_request <= 1'b0;
+				WR <= 1'b0;
 			end
 			
 			// 5. Read OUT_X_L (Addr 0x28)
@@ -178,33 +203,43 @@ always @(posedge clk_in or negedge nrst)
 `ifdef SIMULATION
 				x_l_response <= expected_data;
 `endif
-				if (~spi_ready) begin
+				if (IRQ) begin
 					state <= STATE_Read_Wait;
 `ifdef SIMULATION
 					//$display("STATE_Read => STATE_Read_Wait");
 `endif
 				end
-				spi_request <= 1'b1;
-				spi_nbits <= 6'd23;
-				  spi_mosi_data <= 31'b11101000_00000000_00000000;//28: OUT_X_L
-				//spi_mosi_data <= 31'b11101010_00000000_00000000;//2a: OUT_Y_L
-				//spi_mosi_data <= 31'b11101100_00000000_00000000;//2c: OUT_Z_L
+				WR <= 1'b1;
+				BE <= 4'b1111;
+				DATAI <= 31'b11101000_00000000_00000000;//28: OUT_X_L
 			end
 			
 			STATE_Read_Wait: begin
-				if (spi_ready) begin
+				if (~IRQ) begin
+					if (~RD) begin
+					RD <= 1;
+					BE <= 4'b0011;
+					end else begin
+					RD <= 0;
 `ifdef SIMULATION
-					if (spi_miso_data[7:0] != expected_data) begin
-					$display("Bad Read response: %02x (wanted 0xda)", spi_miso_data[7:0]);
-					$fatal(1);
-					end
-					expected_data <= expected_data + 32;
-					//$display("STATE_Read_Wait => STATE_LEDout - spi_miso_data=%02x", spi_miso_data);
+					if ({DATAO[7:0], DATAO[15:8]} != expected_data) begin
+						state <= STATE_Halt;
+						$display("Bad Read response: %04x (wanted %04x)", DATAO[15:0], expected_data);
+						$fatal(1);
+						//$display("STATE_Read_Wait => STATE_LEDout - spi_miso_data=%02x", spi_miso_data);
+					end else begin
+						expected_data[15:8] <= expected_data[15:8] + 32;
 `endif
-					state <= STATE_LEDout;
-					saved_acc <= spi_miso_data[7:0];
+						state <= STATE_LEDout;
+						//saved_acc <= DATAO[15:8];
+						saved_acc <= DATAO[7:0];
+						//led_out <= DATAO[7:0];
+`ifdef SIMULATION
+					end
+`endif
+					end
 				end 
-				spi_request <= 1'b0;
+				WR <= 1'b0;
 			end
 			
 			// 6. Set LED output according to accelerometer value

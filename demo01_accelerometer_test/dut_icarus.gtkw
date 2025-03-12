@@ -1,25 +1,25 @@
 [*]
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
-[*] Tue Mar 11 11:51:17 2025
+[*] Fri Mar 14 08:00:45 2025
 [*]
 [dumpfile] "dut_icarus.vcd"
-[dumpfile_mtime] "Tue Mar 11 11:50:36 2025"
-[dumpfile_size] 386326
+[dumpfile_mtime] "Fri Mar 14 07:59:34 2025"
+[dumpfile_size] 382363
 [savefile] "dut_icarus.gtkw"
 [timestart] 0
-[size] 1920 1033
+[size] 1920 494
 [pos] -1 -1
-*-21.867327 2772000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-22.853294 5645000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] dut_tb.
 [treeopen] dut_tb.dut1.
 [sst_width] 273
 [signals_width] 258
 [sst_expanded] 1
-[sst_vpaned_height] 305
-@420
-dut_tb.dut1.SPI_DIV_COEF
+[sst_vpaned_height] 115
 @28
 dut_tb.dut1.clk
+@22
+dut_tb.dut1.spi_nbits[5:0]
 @23
 dut_tb.dut1.leds[7:0]
 @28
@@ -39,42 +39,8 @@ dut_tb.dut1.spi_ready
 dut_tb.dut1.spi_request
 dut_tb.dut1.spi_sck
 dut_tb.dut1.tx
-@200
--
-@420
-dut_tb.lis3dh_stub0.IDLE
-dut_tb.lis3dh_stub0.PROCESSING
-dut_tb.lis3dh_stub0.RECEIVING
-dut_tb.lis3dh_stub0.RESPONDING
+dut_tb.dut1.x_l_flag
 @22
-dut_tb.lis3dh_stub0.bit_count[3:0]
-@28
-dut_tb.lis3dh_stub0.clk
-dut_tb.lis3dh_stub0.cs
-dut_tb.lis3dh_stub0.cs_d
-dut_tb.lis3dh_stub0.cs_prev
-dut_tb.lis3dh_stub0.miso
-dut_tb.lis3dh_stub0.mosi
-dut_tb.lis3dh_stub0.mosi_d
-dut_tb.lis3dh_stub0.out_x_l_flag
-@22
-dut_tb.lis3dh_stub0.out_x_l_response[7:0]
-dut_tb.lis3dh_stub0.response[7:0]
-@28
-dut_tb.lis3dh_stub0.sck
-dut_tb.lis3dh_stub0.sck_d
-dut_tb.lis3dh_stub0.sck_prev
-@22
-dut_tb.lis3dh_stub0.shift_reg[7:0]
-@28
-dut_tb.lis3dh_stub0.state[1:0]
-@200
--
-@22
-dut_tb.dut1.sequencer1.saved_acc[7:0]
-dut_tb.dut1.sequencer1.spi_miso_data[31:0]
-dut_tb.dut1.sequencer1.state[3:0]
-@200
--
+dut_tb.dut1.x_l_response[7:0]
 [pattern_trace] 1
 [pattern_trace] 0
