@@ -36,21 +36,30 @@
 //`include "../rtl/config.vh"
 
 // SPI registers
-// 0: addr/data register rw
+// Only 16 and 24 bits SPI transfers are supported (resp. for 1 and 2 transfered data bytes).
+// On write, higher 8 bits are the SPI address, lower bits are the SPI data written.
+// On read, higher 8 bits are the SPI status, lower bits are the SPI data read.
+//    BE
+// W 0011 ADDR,DATA
+// R 0011 STATUS,DATA
+// W 1111 00,ADDR,DATAHI,DATALO
+// R 1111 00,STATUS,DATAHI,DATALO
+// R 1000 STATUS
+// Where STATUS is: {6'b0, spi_ready, spi_busy}
 //
-// For now this wrapper only targets LIS3DH SPI Slave, with 1-2 bytes accesses.
-// - One byte access:
+// Examples below are for STMicro LIS3DH sensor SPI target.
+// - One byte transfer:
 // To read a single byte at address eg: 0x0f (WHO_AM_I), initiate a 16 bits write:
 // *((short *)SPI_MMADDR) = 0x8f00; // 8f is addr with RnW=1, 00 is 8-bit resp placeholder
-// Followed by a 8 bits read:
-// char who_am_i = *((char *)SPI_MMADDR);
+// Followed by a 16 bits read:
+// short who_am_i = *((short *)SPI_MMADDR) & 0xff;
 // To write a single byte at address eg: 0x20 (CTRL_REG1), initiate a 16 bits write:
 // *((short *)SPI_MMADDR) = 0x2077; // 20 is addr, 77 is 8-bit data to write
 // - Two bytes access (with automatic address increment):
 // To read two bytes starting at address eg: 0x28 (OUT_X_L), initiate a 32 bits write:
 // *((int *)SPI_MMADDR) = 0xe80000; // e8 is addr with RnW=1 & MnS=1, 0000 is 16-bit resp placeholder
-// Followed by a 16 bits read:
-// short swapped_out_x = *((short *)SPI_MMADDR); // Note that the returned value is byte-swapped: 0xLOHI
+// Followed by a 32 bits read:
+// int swapped_out_x = *((int *)SPI_MMADDR) & 0xffff; // Note that the returned value is byte-swapped: 0xLOHI
 
 module darkspi #(parameter integer DIV_COEF = 0) (
     input           CLK,            // clock
@@ -81,22 +90,24 @@ module darkspi #(parameter integer DIV_COEF = 0) (
     reg [5:0] spi_nbits = 0;
     reg spi_request = 0;
     wire spi_ready;
-    reg read_ack = 0;
-    reg write_ack = 0;
-
+    wire [7:0] status;
+    wire spi_busy = ~CSN;
+    assign status = {6'b0, spi_ready & ~WR & ~spi_request, spi_busy};
     assign DATAO =
-        BE == 4'b0001 ? {24'b0, spi_miso_data[7:0]} :
-        BE == 4'b0011 ? {16'b0, spi_miso_data[15:0]} :
+        BE == 4'b1000 ? {24'b0, status} :
+        BE == 4'b0011 ? {16'b0, status, spi_miso_data[7:0]} :
+        BE == 4'b1111 ? {8'b0, status, spi_miso_data[15:0]} :
         spi_miso_data;
-    //assign IRQ = spi_ready;
-    assign IRQ = ~CSN;
+`ifdef NO_SPI_IRQ
+    assign IRQ = 0;
+`else
+    assign IRQ = spi_busy;
+`endif
     always @(posedge CLK) begin
         if (RES) begin
             spi_mosi_data <= 0;
             spi_nbits <= 0;
             spi_request <= 0;
-            read_ack <= 0;
-            write_ack <= 0;
         end else begin
             if (WR) begin
                 spi_request <= 1;
@@ -106,13 +117,8 @@ module darkspi #(parameter integer DIV_COEF = 0) (
                     spi_nbits <= 6'd15;
                 end
                 spi_mosi_data <= DATAI;
-                write_ack <= 1;
-            end else if (RD) begin
-                read_ack <= 1;
             end else begin
                 spi_request <= 0;
-                read_ack <= 0;
-                write_ack <= 0;
             end
         end
     end

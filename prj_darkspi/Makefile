@@ -9,6 +9,10 @@ SRC+=spi_master.v
 SRC+=lis3dh_stub.v
 IVOPT:=-DDUT_VCD=\"$(DUT).vcd\" -I ../darkriscv/rtl
 IVOPT+=-DSPI=1
+SPI_POLLING:=1
+ifdef SPI_POLLING
+IVOPT+=-DSPI_POLLING=1
+endif
 IVOPT+=-DSIMULATION=1
 IVOPT+=-DBOARD_ID=0
 IVOPT+=-DBOARD_CK=32000000
