@@ -42,8 +42,8 @@
 //    BE
 // W 0011 ADDR,DATA
 // R 0011 STATUS,DATA
-// W 1111 00,ADDR,DATAHI,DATALO
-// R 1111 00,STATUS,DATAHI,DATALO
+// W 1111 00,ADDR,DATALO,DATAHI
+// R 1111 00,STATUS,DATALO,DATAHI
 // R 1000 STATUS
 // Where STATUS is: {6'b0, spi_ready, spi_busy}
 //
@@ -57,7 +57,7 @@
 // *((short *)SPI_MMADDR) = 0x2077; // 20 is addr, 77 is 8-bit data to write
 // - Two bytes access (with automatic address increment):
 // To read two bytes starting at address eg: 0x28 (OUT_X_L), initiate a 32 bits write:
-// *((int *)SPI_MMADDR) = 0xe80000; // e8 is addr with RnW=1 & MnS=1, 0000 is 16-bit resp placeholder
+// *((int *)SPI_MMADDR) = 0x00e80000; // e8 is addr with RnW=1 & MnS=1, 0000 is 16-bit resp placeholder
 // Followed by a 32 bits read:
 // int swapped_out_x = *((int *)SPI_MMADDR) & 0xffff; // Note that the returned value is byte-swapped: 0xLOHI
 
@@ -85,6 +85,7 @@ module darkspi #(parameter integer DIV_COEF = 0) (
     output [3:0]    DEBUG           // osc debug
 );
 
+    reg [8:0] NWR = 0;
     reg [31:0] spi_mosi_data = 0;
     wire [31:0] spi_miso_data;
     reg [5:0] spi_nbits = 0;
@@ -94,10 +95,11 @@ module darkspi #(parameter integer DIV_COEF = 0) (
     wire spi_busy = ~CSN;
     assign status = {6'b0, spi_ready & ~WR & ~spi_request, spi_busy};
     assign DATAO =
-        BE == 4'b1000 ? {24'b0, status} :
+        BE == 4'b0001 ? {24'b0, spi_miso_data[7:0]} :
         BE == 4'b0011 ? {16'b0, status, spi_miso_data[7:0]} :
         BE == 4'b1111 ? {8'b0, status, spi_miso_data[15:0]} :
-        spi_miso_data;
+        BE == 4'b1000 ? {status, 24'b0} :
+        {32'b0};
 `ifdef NO_SPI_IRQ
     assign IRQ = 0;
 `else
@@ -110,6 +112,7 @@ module darkspi #(parameter integer DIV_COEF = 0) (
             spi_request <= 0;
         end else begin
             if (WR) begin
+                NWR <= NWR + 1;
                 spi_request <= 1;
                 if (BE == 4'b1111) begin
                     spi_nbits <= 6'd23;

@@ -51,7 +51,7 @@ localparam expected_HIZ = 8'hff;
 `endif
 reg signed [7:0] saved_acc;
 `ifdef SIMULATION
-reg [15:0] expected_data = 16'h9a00;
+reg [15:0] expdat = 16'h9a00;
 `endif
 `ifdef SPI_POLLING
 reg [4:0] poll_ws = 0;
@@ -90,7 +90,7 @@ always @(posedge clk_in or negedge nrst)
 				end
 				if (RD) begin
 				RD <= 0;
-				if (DATAO[0] == 0) begin
+				if (DATAO[24+0] == 0) begin
 `endif
 				WR <= 1;
 				BE <= 4'b0011;
@@ -153,7 +153,7 @@ always @(posedge clk_in or negedge nrst)
 				end
 				if (RD) begin
 				RD <= 0;
-				if (DATAO[0] == 0) begin
+				if (DATAO[24+0] == 0) begin
 `endif
 				WR <= 1;
 				BE <= 4'b0011;
@@ -215,7 +215,7 @@ always @(posedge clk_in or negedge nrst)
 				BE <= 4'b1000;
 				end
 				if (RD) begin
-				if (DATAO[0] == 0) begin
+				if (DATAO[24+0] == 0) begin
 				RD <= 0;
 `endif
 				WR <= 1;
@@ -279,7 +279,7 @@ always @(posedge clk_in or negedge nrst)
 				BE <= 4'b1000;
 				end
 				if (RD) begin
-				if (DATAO[0] == 0) begin
+				if (DATAO[24+0] == 0) begin
 				RD <= 0;
 `endif
 				WR <= 1;
@@ -338,7 +338,7 @@ always @(posedge clk_in or negedge nrst)
 			// 5. Read OUT_X_L (Addr 0x28)
 			STATE_Read: begin
 `ifdef SIMULATION
-				x_l_response <= expected_data;
+				x_l_response <= expdat;
 `endif
 `ifdef SPI_POLLING
 				if (poll_ws > 0) begin
@@ -348,7 +348,7 @@ always @(posedge clk_in or negedge nrst)
 				BE <= 4'b1000;
 				end
 				if (RD) begin
-				if (DATAO[0] == 0) begin
+				if (DATAO[24+0] == 0) begin
 				RD <= 0;
 `endif
 				WR <= 1;
@@ -388,13 +388,13 @@ always @(posedge clk_in or negedge nrst)
 				if (DATAO[16+1] == 1) begin
 `endif
 `ifdef SIMULATION
-					if ({DATAO[7:0], DATAO[15:8]} != expected_data) begin
+					if ({DATAO[7:0], DATAO[15:8]} != expdat) begin
 						state <= STATE_Halt;
-						$display("Bad Read response: %04x (wanted %04x) DATAO=%08x", DATAO[15:0], expected_data, DATAO);
+						$display("Bad Read response: %04x (wanted %04x) DATAO=%08x", DATAO[15:0], expdat, DATAO);
 						$fatal(1);
 						//$display("STATE_Read_Wait => STATE_LEDout - spi_miso_data=%02x", spi_miso_data);
 					end else begin
-						expected_data[15:8] <= expected_data[15:8] + 32;
+						expdat[15:8] <= expdat[15:8] + 32;
 `endif
 						state <= STATE_LEDout;
 						//saved_acc <= DATAO[15:8];

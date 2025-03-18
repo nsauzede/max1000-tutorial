@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
-[*] Wed Mar 19 09:30:26 2025
+[*] Wed Mar 19 09:32:47 2025
 [*]
 [dumpfile] "dut_icarus.vcd"
-[dumpfile_mtime] "Wed Mar 19 09:30:18 2025"
-[dumpfile_size] 425591
+[dumpfile_mtime] "Wed Mar 19 09:32:08 2025"
+[dumpfile_size] 554513
 [savefile] "dut_icarus.gtkw"
 [timestart] 0
 [size] 1919 493
@@ -12,39 +12,41 @@
 *-22.775906 1015000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] dut_tb.
 [treeopen] dut_tb.dut1.
-[treeopen] dut_tb.dut1.darkspi1.
+[treeopen] dut_tb.dut1.darkio1.
+[treeopen] dut_tb.dut1.darkio1.spi0.
 [treeopen] dut_tb.dut1.darkspisequencer1.
 [sst_width] 273
 [signals_width] 182
 [sst_expanded] 1
 [sst_vpaned_height] 115
 @22
-dut_tb.dut1.BE[3:0]
+dut_tb.dut1.darkspisequencer1.DATAO[31:0]
+dut_tb.dut1.darkio1.spi0.BE[3:0]
 dut_tb.dut1.leds[7:0]
 @28
 dut_tb.dut1.spi_csn
 @22
-dut_tb.dut1.darkspi1.DATAI[31:0]
-dut_tb.dut1.darkspi1.DATAO[31:0]
+dut_tb.dut1.darkio1.spi0.DATAI[31:0]
+dut_tb.dut1.darkio1.spi0.DATAO[31:0]
 @28
 dut_tb.dut1.spi_miso
 dut_tb.dut1.spi_mosi
-dut_tb.dut1.RD
+dut_tb.dut1.darkio1.spi0.RD
 dut_tb.dut1.reset
 @29
 dut_tb.dut1.clk
 @28
 dut_tb.dut1.spi_sck
-dut_tb.dut1.WR
+dut_tb.dut1.darkio1.spi0.WR
 @22
-dut_tb.dut1.darkspi1.NWR[8:0]
+dut_tb.dut1.darkio1.spi0.NWR[8:0]
 @200
 -
 @22
-dut_tb.dut1.darkspi1.status[7:0]
+dut_tb.dut1.darkio1.spi0.status[7:0]
 @28
-dut_tb.dut1.darkspi1.spi_ready
-dut_tb.dut1.darkspi1.spi_request
+dut_tb.dut1.darkio1.spi0.spi_ready
+dut_tb.dut1.darkio1.spi0.spi_request
 @200
 -
 @22

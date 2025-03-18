@@ -3,10 +3,12 @@ DUT:=dut_icarus
 #SRC+=top.v
 SRC:=dut_tb.v
 SRC+=dut.v
-SRC+=darkspisequencer.v
-SRC+=darkspi.v
-SRC+=spi_master.v
-SRC+=lis3dh_stub.v
+SRC+=darkio.v
+SRC+=darkuart.v
+SRC+=../prj_darkspi/darkspisequencer.v
+SRC+=../prj_darkspi/darkspi.v
+SRC+=../prj_darkspi/spi_master.v
+SRC+=../prj_darkspi/lis3dh_stub.v
 IVOPT:=-DDUT_VCD=\"$(DUT).vcd\" -I ../darkriscv/rtl
 IVOPT+=-DSPI=1
 SPI_POLLING:=1
